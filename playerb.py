@@ -14,47 +14,7 @@ class Playerb(Player):
     #    self.pos.x=(self.rx/8-20)
     #    self.pos=Vector2((self.rx/8-20),(self.ry/2-20))
 
-    def tick(self): #change x and y position of rectangle
-        #X
-        #if ((self.pos.x+20) <= self.rx) and (self.pos.x >= 0):
-        if 0:
-            self.vel += self.acc
-            self.pos += self.vel
-            self.acc *=0
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_RIGHT]):
-                self.acc.x += self.mov_pix
-            if (self.keys[pygame.K_LEFT]):
-                self.acc.x -= self.mov_pix
-
-
-        elif self.pos.x >= self.rx:
-
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = (self.rx - 20)
-            else:
-                self.pos.x = (self.rx - 20)
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-        elif self.pos.x < 0:
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = 0
-            else:
-                self.pos.x = 0
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-
-
+    def tick(self): #change y position of rectangle
         #Y
         if (self.pos.y <= self.ry) and (self.pos.y >= 0):
 
