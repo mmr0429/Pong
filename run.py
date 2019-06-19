@@ -10,20 +10,12 @@ class Game(object):
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Pong by m')
-
         self.started=0
-
         self.p1_score = 0
         self.p2_score = 0
-
         resx=800
         resy=600
-
-        #1 Will launch game in two player mode
         self.co_op=1
-
-        #resx=1280
-        #resy=720
 
         self.screen = pygame.display.set_mode((resx,resy))
         self.clock = pygame.time.Clock()
@@ -37,7 +29,6 @@ class Game(object):
         self.player.bounce_mode(1)
         if self.co_op is 1:
             self.player2=Playerb(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
-            #self.player2.fix_pos()
             self.player2.bounce_mode(1)
         self.ball=Ball(self.screen,self.mov_pix,resx,resy,1,400,300)
 
@@ -58,11 +49,6 @@ class Game(object):
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     sys.exit(0)
 #ONLY FOR DEBUGGING---------------------------------------------------------
-                #Can players bounce off the screen borders ?
-                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
-                    #self.player.bounce_mode(1)
-                    #if self.co_op is 1:
-                        #self.player2.bounce_mode(1)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                     self.player.reset_loc()
                     self.player2.reset_loc()
@@ -80,15 +66,10 @@ class Game(object):
                 self.tick()
                 self.delta -= 1 / self.max_tps
 
-
-
-
-
             #Drawing
             self.screen.fill((0, 0, 0))  # Clears the screen
             self.draw()
             pygame.display.flip()
-
 
     def tick(self):
 
@@ -142,25 +123,17 @@ class Game(object):
             self.ball.ball_bounce()
 
         self.player.tick()
-        #print(self.player.get_location())
         if self.co_op is 1:
             self.player2.tick()
-            #print(self.player2.get_location())
-        #print(int(self.points/8))
+
         self.ball.tick()
-        #print(self.ball.get_location())
-
-
 
     def draw(self):
-        #print("Drawing")
-
 
         self.screen_line.draw()
         self.player.draw()
         if self.co_op is 1:
             self.player2.draw()
-        #self.pygame.display.flip()
         self.ball.draw()
 
 if __name__=="__main__":

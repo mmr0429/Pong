@@ -5,7 +5,6 @@ from player import *
 class Line(Player):
     def __init__(self,scr,px,res_x,res_y,bnc):
         super().__init__(scr,px,res_x,res_y,bnc) #Call __init__ from Player class
-        #Overwrite position, so they are next to each other
         self.pos=Vector2((399),(0))
 
     def draw(self):

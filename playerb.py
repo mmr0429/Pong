@@ -6,13 +6,10 @@ class Playerb(Player):
 
     def __init__(self,scr,px,res_x,res_y,bnc):
         super().__init__(scr,px,res_x,res_y,bnc) #Call __init__ from Player class
-        #Overwrite position, so they are next to each other
+
         self.pos=Vector2((780),(self.ry/2-20))
         self.start_x=780
 
-    #def fix_pos(self):
-    #    self.pos.x=(self.rx/8-20)
-    #    self.pos=Vector2((self.rx/8-20),(self.ry/2-20))
 
     def tick(self): #change y position of rectangle
         #Y

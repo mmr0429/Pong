@@ -3,13 +3,7 @@ from pygame.math import Vector2
 
 class Player(object):
     def __init__(self,scr,px,res_x,res_y,bnc):
-
-
-
         self.bounce=bnc
-
-
-
         self.rx=res_x
         self.ry=res_y
 
@@ -17,7 +11,6 @@ class Player(object):
         self.start_y=self.ry/2-20
 
         self.display=scr
-        #self.box=pygame.Rect(10, 10, 20, 20)
         self.mov_pix=px
 
         self.pos=Vector2((10),(self.ry/2-20))
@@ -43,15 +36,11 @@ class Player(object):
             self.pos += (0.7*self.vel)
             self.acc *=0
 
-
-
-
             self.keys=pygame.key.get_pressed() #Get the key pressed dict
             if (self.keys[pygame.K_w]):
                 self.acc.y -= self.mov_pix
             if (self.keys[pygame.K_s]):
                 self.acc.y += self.mov_pix
-
 
         elif (self.pos.y +40) >= self.ry:
             if self.bounce is 0:
