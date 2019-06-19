@@ -32,8 +32,8 @@ class Player(object):
         #Y
         if (self.pos.y <= self.ry) and (self.pos.y >= 0):
 
-            self.vel += (0.7*self.acc)
-            self.pos += (0.7*self.vel)
+            self.vel += self.acc
+            self.pos += self.vel
             self.acc *=0
 
             self.keys=pygame.key.get_pressed() #Get the key pressed dict

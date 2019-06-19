@@ -15,21 +15,20 @@ class Game(object):
         self.p2_score = 0
         resx=800
         resy=600
-        self.co_op=1
 
         self.screen = pygame.display.set_mode((resx,resy))
         self.clock = pygame.time.Clock()
         self.delta = 0.0
-        self.max_tps = 45.0
+        self.max_tps = 50.0
         self.mov_pix = 1
 
-        #player
+        #players
         can_player_spring_back=0 #Bounce off the walls
         self.player=Player(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
         self.player.bounce_mode(1)
-        if self.co_op is 1:
-            self.player2=Playerb(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
-            self.player2.bounce_mode(1)
+        self.player2=Playerb(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
+        self.player2.bounce_mode(1)
+        self.player2.not_human(1) #Enables ai for player two
         self.ball=Ball(self.screen,self.mov_pix,resx,resy,1,400,300)
 
         self.screen_line=Line(self.screen,self.mov_pix,resx,resy,1)
@@ -117,14 +116,18 @@ class Game(object):
             self.player2.reset_loc()
             self.ball.reset_ball()
 
-        if ((self.player2.get_location().y <= self.ball.get_location().y)and((self.player2.get_location().y+40) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+10) > self.ball.get_location().x)):
+        if ((self.player2.get_location().y-10 <= self.ball.get_location().y)and((self.player2.get_location().y+50) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+10) > self.ball.get_location().x)):
             self.ball.ball_bounce()
-        if ((self.player.get_location().y <= self.ball.get_location().y)and((self.player.get_location().y+40) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+10) > self.ball.get_location().x)):
+        if ((self.player.get_location().y-10 <= self.ball.get_location().y)and((self.player.get_location().y+50) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+10) > self.ball.get_location().x)):
             self.ball.ball_bounce()
 
+                #if ((self.player2.get_location().y <= self.ball.get_location().y)and((self.player2.get_location().y+60) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+20) > self.ball.get_location().x)):
+                    #self.ball.ball_bounce()
+                #if ((self.player.get_location().y <= self.ball.get_location().y)and((self.player.get_location().y+60) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+20) > self.ball.get_location().x)):
+                    #self.ball.ball_bounce()
+
         self.player.tick()
-        if self.co_op is 1:
-            self.player2.tick()
+        self.player2.tick(self.ball.get_location())
 
         self.ball.tick()
 
@@ -132,8 +135,7 @@ class Game(object):
 
         self.screen_line.draw()
         self.player.draw()
-        if self.co_op is 1:
-            self.player2.draw()
+        self.player2.draw()
         self.ball.draw()
 
 if __name__=="__main__":
