@@ -16,6 +16,9 @@ class Game(object):
         resx=800
         resy=600
 
+        game_icon = pygame.image.load('ic.png')
+        pygame.display.set_icon(game_icon)
+
         self.screen = pygame.display.set_mode((resx,resy))
         self.clock = pygame.time.Clock()
         self.delta = 0.0
