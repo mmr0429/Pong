@@ -10,35 +10,33 @@ class Game(object):
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Pong by m')
-
         self.started=0
-
         self.p1_score = 0
         self.p2_score = 0
-
         resx=800
         resy=600
 
-        #1 Will launch game in two player mode
-        self.co_op=1
+        self.game_font=pygame.font.SysFont("monospace", 50, False,False)
+        self.p1_score_text=self.game_font.render("Test", True, (128, 128, 128))
+        self.p2_score_text=self.game_font.render("Test", True, (128, 128, 128))
 
-        #resx=1280
-        #resy=720
+
+        game_icon = pygame.image.load('ic.png')
+        pygame.display.set_icon(game_icon)
 
         self.screen = pygame.display.set_mode((resx,resy))
         self.clock = pygame.time.Clock()
         self.delta = 0.0
-        self.max_tps = 45.0
+        self.max_tps = 50.0
         self.mov_pix = 1
 
-        #player
+        #players
         can_player_spring_back=0 #Bounce off the walls
         self.player=Player(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
         self.player.bounce_mode(1)
-        if self.co_op is 1:
-            self.player2=Playerb(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
-            #self.player2.fix_pos()
-            self.player2.bounce_mode(1)
+        self.player2=Playerb(self.screen,self.mov_pix,resx,resy,can_player_spring_back)
+        self.player2.bounce_mode(1)
+        self.player2.not_human(1) #Enables ai for player two
         self.ball=Ball(self.screen,self.mov_pix,resx,resy,1,400,300)
 
         self.screen_line=Line(self.screen,self.mov_pix,resx,resy,1)
@@ -58,21 +56,16 @@ class Game(object):
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     sys.exit(0)
 #ONLY FOR DEBUGGING---------------------------------------------------------
-                #Can players bounce off the screen borders ?
+                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                    #self.player.reset_loc()
+                    #self.player2.reset_loc()
+                    #self.ball.reset_ball()
+
                 #elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
-                    #self.player.bounce_mode(1)
-                    #if self.co_op is 1:
-                        #self.player2.bounce_mode(1)
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                    self.player.reset_loc()
-                    self.player2.reset_loc()
-                    self.ball.reset_ball()
+                    #self.ball.ball_bounce()
 
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
-                    self.ball.ball_bounce()
-
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
-                    self.ball.move_ball()
+                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                    #self.ball.move_ball()
 
             #Ticking
             self.delta += (self.clock.tick() / 1000.0)
@@ -80,24 +73,20 @@ class Game(object):
                 self.tick()
                 self.delta -= 1 / self.max_tps
 
-
-
-
-
             #Drawing
             self.screen.fill((0, 0, 0))  # Clears the screen
             self.draw()
             pygame.display.flip()
 
-
     def tick(self):
-
+        self.p1_score_text=self.game_font.render(str(self.p1_score), True, (128, 128, 128))
+        self.p2_score_text=self.game_font.render(str(self.p2_score), True, (128, 128, 128))
         if self.started is 0:
             self.ball.move_ball()
             self.started=1
 
-        if self.p1_score is 4:
-            print("PLAYER 1 WINS !!!!")
+        if self.p1_score is 6:
+            #print("PLAYER 1 WINS !!!!")
             self.p1_score *= 0
             self.p2_score *= 0
             self.player.reset_loc()
@@ -105,8 +94,8 @@ class Game(object):
             self.ball.reset_ball()
             self.started=0
 
-        if self.p2_score is 4:
-            print("PLAYER 2 WINS !!!!")
+        if self.p2_score is 6:
+            #print("PLAYER 2 WINS !!!!")
             self.p1_score *= 0
             self.p2_score *= 0
             self.player.reset_loc()
@@ -116,7 +105,7 @@ class Game(object):
 
         #print(self.ball.get_location().x)
         if (self.ball.get_location().x < 10):
-            print("\n\n\n\n\nPLAYER 2 SCORES")
+            #print("\n\n\n\n\nPLAYER 2 SCORES")
             self.p2_score += 1
             self.player.reset_loc()
             self.player2.reset_loc()
@@ -124,7 +113,7 @@ class Game(object):
             self.started=0
 
         if (self.ball.get_location().x > 791):
-            print("\n\n\n\n\nPLAYER 1 SCORES")
+            #print("\n\n\n\n\nPLAYER 1 SCORES")
             self.p1_score += 1
             self.player.reset_loc()
             self.player2.reset_loc()
@@ -136,31 +125,28 @@ class Game(object):
             self.player2.reset_loc()
             self.ball.reset_ball()
 
-        if ((self.player2.get_location().y <= self.ball.get_location().y)and((self.player2.get_location().y+40) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+10) > self.ball.get_location().x)):
+        if ((self.player2.get_location().y-10 <= self.ball.get_location().y)and((self.player2.get_location().y+50) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+10) > self.ball.get_location().x)):
             self.ball.ball_bounce()
-        if ((self.player.get_location().y <= self.ball.get_location().y)and((self.player.get_location().y+40) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+10) > self.ball.get_location().x)):
+        if ((self.player.get_location().y-10 <= self.ball.get_location().y)and((self.player.get_location().y+50) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+10) > self.ball.get_location().x)):
             self.ball.ball_bounce()
+
+                #if ((self.player2.get_location().y <= self.ball.get_location().y)and((self.player2.get_location().y+60) > self.ball.get_location().y))and((self.player2.get_location().x <= self.ball.get_location().x)and((self.player2.get_location().x+20) > self.ball.get_location().x)):
+                    #self.ball.ball_bounce()
+                #if ((self.player.get_location().y <= self.ball.get_location().y)and((self.player.get_location().y+60) > self.ball.get_location().y))and((self.player.get_location().x <= self.ball.get_location().x)and((self.player.get_location().x+20) > self.ball.get_location().x)):
+                    #self.ball.ball_bounce()
 
         self.player.tick()
-        #print(self.player.get_location())
-        if self.co_op is 1:
-            self.player2.tick()
-            #print(self.player2.get_location())
-        #print(int(self.points/8))
+        self.player2.tick(self.ball.get_location())
+
         self.ball.tick()
-        #print(self.ball.get_location())
-
-
 
     def draw(self):
-        #print("Drawing")
-
-
+        #self.p1_score_text.blit()
+        self.screen.blit(self.p1_score_text,((379-self.p1_score_text.get_width()),80))
+        self.screen.blit(self.p2_score_text,((399+self.p2_score_text.get_width()),80))
         self.screen_line.draw()
         self.player.draw()
-        if self.co_op is 1:
-            self.player2.draw()
-        #self.pygame.display.flip()
+        self.player2.draw()
         self.ball.draw()
 
 if __name__=="__main__":

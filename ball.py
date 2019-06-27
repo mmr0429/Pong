@@ -8,10 +8,8 @@ import random
 class Ball(Player):
     def __init__(self,scr,px,res_x,res_y,bnc,cir_x,cir_y):
         super().__init__(scr,px,res_x,res_y,bnc)
-        #self.pos=Vector2(400,300)
 
         self.ball_speed=4
-
 
         self.bounce=0
         self.bounce_fix=1
@@ -36,15 +34,11 @@ class Ball(Player):
             self.cx += self.vel.x
             self.acc *=0
 
-
-
-
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_l]):
-                self.acc.x += self.mov_pix
-            if (self.keys[pygame.K_h]):
-                self.acc.x -= self.mov_pix
-
+            #self.keys=pygame.key.get_pressed() #Get the key pressed dict
+            #if (self.keys[pygame.K_l]):
+            #    self.acc.x += self.mov_pix
+            #if (self.keys[pygame.K_h]):
+            #    self.acc.x -= self.mov_pix
 
         elif (self.cx+10) >= self.rx:
 
@@ -53,14 +47,11 @@ class Ball(Player):
                 self.vel.x *= 0
                 self.cx = (self.rx - 10)
             else:
-
                 self.cx = (self.rx - 10)
                 self.acc.x *=(-1)
                 self.vel.x *= (-1)
                 self.cx += self.vel.x
                 self.acc.x *=0
-
-
 
         elif self.cx < 0:
             if self.bounce is 0:
@@ -74,8 +65,6 @@ class Ball(Player):
                 self.cx += self.vel.x
                 self.acc.x *=0
 
-
-
         #Y
         if (self.cy <= self.ry) and (self.cy >= 0):
 
@@ -83,15 +72,11 @@ class Ball(Player):
             self.cy += self.vel.y
             self.acc *=0
 
-
-
-
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_k]):
-                self.acc.y -= self.mov_pix
-            if (self.keys[pygame.K_j]):
-                self.acc.y += self.mov_pix
-
+            #self.keys=pygame.key.get_pressed() #Get the key pressed dict
+            #if (self.keys[pygame.K_k]):
+            #    self.acc.y -= self.mov_pix
+            #if (self.keys[pygame.K_j]):
+            #    self.acc.y += self.mov_pix
 
         elif (self.cy +10) >= self.ry:
             if self.bounce_fix is 0:
@@ -99,7 +84,6 @@ class Ball(Player):
                 self.vel.y *= 0
                 self.cy = (self.ry - 10)
             else:
-
                 self.cy = (self.ry - 10)
                 self.acc.y *=(-1)
                 self.vel.y *= (-1)
@@ -120,7 +104,6 @@ class Ball(Player):
 
     def move_ball(self):
         rand_ball=random.randint(1,4)
-        #print(rand_ball)
         if rand_ball is 1:
             self.acc.x += (self.mov_pix*self.ball_speed)
             self.acc.y += (self.mov_pix*self.ball_speed)
@@ -151,6 +134,4 @@ class Ball(Player):
         self.acc.y *=0
 
     def draw(self):
-        #self.box=pygame.circle(self.pos.x, self.pos.y, 10)
-        #self.center=Vector2(int(self.pos.x),int(self.pos.y))
         pygame.draw.circle(self.display, (128, 128, 128), (int(self.cx),int(self.cy)),10)

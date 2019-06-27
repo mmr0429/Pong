@@ -6,92 +6,102 @@ class Playerb(Player):
 
     def __init__(self,scr,px,res_x,res_y,bnc):
         super().__init__(scr,px,res_x,res_y,bnc) #Call __init__ from Player class
-        #Overwrite position, so they are next to each other
+
         self.pos=Vector2((780),(self.ry/2-20))
         self.start_x=780
+        self.ai=1
 
-    #def fix_pos(self):
-    #    self.pos.x=(self.rx/8-20)
-    #    self.pos=Vector2((self.rx/8-20),(self.ry/2-20))
+    def not_human(self,mode):
+        self.ai=mode
 
-    def tick(self): #change x and y position of rectangle
-        #X
-        #if ((self.pos.x+20) <= self.rx) and (self.pos.x >= 0):
-        if 0:
-            self.vel += self.acc
-            self.pos += self.vel
-            self.acc *=0
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_RIGHT]):
-                self.acc.x += self.mov_pix
-            if (self.keys[pygame.K_LEFT]):
-                self.acc.x -= self.mov_pix
+    def tick(self,ball_loc): #change y position of rectangle
+        ball_location=ball_loc
 
-
-        elif self.pos.x >= self.rx:
-
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = (self.rx - 20)
-            else:
-                self.pos.x = (self.rx - 20)
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-        elif self.pos.x < 0:
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = 0
-            else:
-                self.pos.x = 0
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-
-
+        if self.ai is 0:
         #Y
-        if (self.pos.y <= self.ry) and (self.pos.y >= 0):
+            if (self.pos.y <= self.ry) and (self.pos.y >= 0):
 
-            self.vel += (0.7*self.acc)
-            self.pos += (0.7*self.vel)
-            self.acc *=0
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_UP]):
-                self.acc.y -= self.mov_pix
-            if (self.keys[pygame.K_DOWN]):
-                self.acc.y += self.mov_pix
+                self.vel += self.acc
+                self.pos += self.vel
+                self.acc *=0
 
 
-        elif (self.pos.y +40) >= self.ry:
-            if self.bounce is 0:
-                self.acc.y *=0
-                self.vel.y *= 0
-                self.pos.y = (self.ry - 40)
-            else:
+                self.keys=pygame.key.get_pressed() #Get the key pressed dict
+                if (self.keys[pygame.K_UP]):
+                    self.acc.y -= self.mov_pix
+                if (self.keys[pygame.K_DOWN]):
+                    self.acc.y += self.mov_pix
 
-                self.pos.y = (self.ry - 40)
-                self.acc.y *=(-0.5)
-                self.vel.y *= (-0.5)
-                self.pos.y += self.vel.y
-                self.acc.y *=0
 
-        elif self.pos.y < 0:
-            if self.bounce is 0:
-                self.acc.y *=0
-                self.vel.y *= 0
-                self.pos.y = 0
-            else:
-                self.pos.y = 0
-                self.acc.y *=(-0.5)
-                self.vel.y *= (-0.5)
-                self.pos.y += self.vel.y
-                self.acc.y *=0
+            elif (self.pos.y +40) >= self.ry:
+                if self.bounce is 0:
+                    self.acc.y *=0
+                    self.vel.y *= 0
+                    self.pos.y = (self.ry - 40)
+                else:
+
+                    self.pos.y = (self.ry - 40)
+                    self.acc.y *=(-0.5)
+                    self.vel.y *= (-0.5)
+                    self.pos.y += self.vel.y
+                    self.acc.y *=0
+
+            elif self.pos.y < 0:
+                if self.bounce is 0:
+                    self.acc.y *=0
+                    self.vel.y *= 0
+                    self.pos.y = 0
+                else:
+                    self.pos.y = 0
+                    self.acc.y *=(-0.5)
+                    self.vel.y *= (-0.5)
+                    self.pos.y += self.vel.y
+                    self.acc.y *=0
+        else:
+            #AI for player 2
+            paddle_pos=self.get_location()
+
+            if (self.pos.y <= self.ry) and (self.pos.y >= 0):
+
+                self.vel += (0.1*self.acc)
+                self.pos += (0.1*self.vel)
+                self.acc *=0
+
+                if (ball_location.x > 100)and(ball_location.y < paddle_pos.y):
+                    self.vel.y -= self.mov_pix
+                elif (ball_location.x > 100)and(ball_location.y >= paddle_pos.y):
+                    self.vel.y += self.mov_pix
+                else:
+                    pass
+
+            elif (self.pos.y +40) >= self.ry:
+                if self.bounce is 0:
+                    self.acc.y *=0
+                    self.vel.y *= 0
+                    self.pos.y = (self.ry - 40)
+                else:
+
+                    self.pos.y = (self.ry - 40)
+                    self.acc.y *=(-0.5)
+                    self.vel.y *= (-0.5)
+                    self.pos.y += self.vel.y
+                    self.acc.y *=0
+
+            elif self.pos.y < 0:
+                if self.bounce is 0:
+                    self.acc.y *=0
+                    self.vel.y *= 0
+                    self.pos.y = 0
+                else:
+                    self.pos.y = 0
+                    self.acc.y *=(-0.5)
+                    self.vel.y *= (-0.5)
+                    self.pos.y += self.vel.y
+                    self.acc.y *=0
+
+
+
+
 
     def draw(self):
 

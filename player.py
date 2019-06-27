@@ -3,13 +3,7 @@ from pygame.math import Vector2
 
 class Player(object):
     def __init__(self,scr,px,res_x,res_y,bnc):
-
-
-
         self.bounce=bnc
-
-
-
         self.rx=res_x
         self.ry=res_y
 
@@ -17,7 +11,6 @@ class Player(object):
         self.start_y=self.ry/2-20
 
         self.display=scr
-        #self.box=pygame.Rect(10, 10, 20, 20)
         self.mov_pix=px
 
         self.pos=Vector2((10),(self.ry/2-20))
@@ -34,71 +27,20 @@ class Player(object):
     def bounce_mode(self,newsetting):
         self.bounce = newsetting
 
-    def tick(self): #change x and y position of rectangle
-        #X
-        #if ((self.pos.x+20) <= self.rx) and (self.pos.x >= 0):
-        if 0:
-
-            self.vel += self.acc
-            self.pos += self.vel
-            self.acc *=0
-
-
-
-
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_d]):
-                self.acc.x += self.mov_pix
-            if (self.keys[pygame.K_a]):
-                self.acc.x -= self.mov_pix
-
-
-        elif self.pos.x >= self.rx:
-
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = (self.rx - 20)
-            else:
-
-                self.pos.x = (self.rx - 20)
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-
-
-        elif self.pos.x < 0:
-            if self.bounce is 0:
-                self.acc.x *=0
-                self.vel.x *= 0
-                self.pos.x = 0
-            else:
-                self.pos.x = 0
-                self.acc.x *=(-0.5)
-                self.vel.x *= (-0.5)
-                self.pos.x += self.vel.x
-                self.acc.x *=0
-
-
+    def tick(self): #change y position of rectangle
 
         #Y
         if (self.pos.y <= self.ry) and (self.pos.y >= 0):
 
-            self.vel += (0.7*self.acc)
-            self.pos += (0.7*self.vel)
+            self.vel += self.acc
+            self.pos += self.vel
             self.acc *=0
-
-
-
 
             self.keys=pygame.key.get_pressed() #Get the key pressed dict
             if (self.keys[pygame.K_w]):
                 self.acc.y -= self.mov_pix
             if (self.keys[pygame.K_s]):
                 self.acc.y += self.mov_pix
-
 
         elif (self.pos.y +40) >= self.ry:
             if self.bounce is 0:
