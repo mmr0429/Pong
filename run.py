@@ -16,6 +16,11 @@ class Game(object):
         resx=800
         resy=600
 
+        self.game_font=pygame.font.SysFont("monospace", 50, False,False)
+        self.p1_score_text=self.game_font.render("Test", True, (128, 128, 128))
+        self.p2_score_text=self.game_font.render("Test", True, (128, 128, 128))
+
+
         game_icon = pygame.image.load('ic.png')
         pygame.display.set_icon(game_icon)
 
@@ -51,16 +56,16 @@ class Game(object):
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     sys.exit(0)
 #ONLY FOR DEBUGGING---------------------------------------------------------
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                    self.player.reset_loc()
-                    self.player2.reset_loc()
-                    self.ball.reset_ball()
+                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                    #self.player.reset_loc()
+                    #self.player2.reset_loc()
+                    #self.ball.reset_ball()
 
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
-                    self.ball.ball_bounce()
+                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
+                    #self.ball.ball_bounce()
 
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
-                    self.ball.move_ball()
+                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                    #self.ball.move_ball()
 
             #Ticking
             self.delta += (self.clock.tick() / 1000.0)
@@ -74,13 +79,14 @@ class Game(object):
             pygame.display.flip()
 
     def tick(self):
-
+        self.p1_score_text=self.game_font.render(str(self.p1_score), True, (128, 128, 128))
+        self.p2_score_text=self.game_font.render(str(self.p2_score), True, (128, 128, 128))
         if self.started is 0:
             self.ball.move_ball()
             self.started=1
 
-        if self.p1_score is 4:
-            print("PLAYER 1 WINS !!!!")
+        if self.p1_score is 6:
+            #print("PLAYER 1 WINS !!!!")
             self.p1_score *= 0
             self.p2_score *= 0
             self.player.reset_loc()
@@ -88,8 +94,8 @@ class Game(object):
             self.ball.reset_ball()
             self.started=0
 
-        if self.p2_score is 4:
-            print("PLAYER 2 WINS !!!!")
+        if self.p2_score is 6:
+            #print("PLAYER 2 WINS !!!!")
             self.p1_score *= 0
             self.p2_score *= 0
             self.player.reset_loc()
@@ -99,7 +105,7 @@ class Game(object):
 
         #print(self.ball.get_location().x)
         if (self.ball.get_location().x < 10):
-            print("\n\n\n\n\nPLAYER 2 SCORES")
+            #print("\n\n\n\n\nPLAYER 2 SCORES")
             self.p2_score += 1
             self.player.reset_loc()
             self.player2.reset_loc()
@@ -107,7 +113,7 @@ class Game(object):
             self.started=0
 
         if (self.ball.get_location().x > 791):
-            print("\n\n\n\n\nPLAYER 1 SCORES")
+            #print("\n\n\n\n\nPLAYER 1 SCORES")
             self.p1_score += 1
             self.player.reset_loc()
             self.player2.reset_loc()
@@ -135,7 +141,9 @@ class Game(object):
         self.ball.tick()
 
     def draw(self):
-
+        #self.p1_score_text.blit()
+        self.screen.blit(self.p1_score_text,((379-self.p1_score_text.get_width()),80))
+        self.screen.blit(self.p2_score_text,((399+self.p2_score_text.get_width()),80))
         self.screen_line.draw()
         self.player.draw()
         self.player2.draw()

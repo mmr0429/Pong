@@ -34,11 +34,11 @@ class Ball(Player):
             self.cx += self.vel.x
             self.acc *=0
 
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_l]):
-                self.acc.x += self.mov_pix
-            if (self.keys[pygame.K_h]):
-                self.acc.x -= self.mov_pix
+            #self.keys=pygame.key.get_pressed() #Get the key pressed dict
+            #if (self.keys[pygame.K_l]):
+            #    self.acc.x += self.mov_pix
+            #if (self.keys[pygame.K_h]):
+            #    self.acc.x -= self.mov_pix
 
         elif (self.cx+10) >= self.rx:
 
@@ -72,11 +72,11 @@ class Ball(Player):
             self.cy += self.vel.y
             self.acc *=0
 
-            self.keys=pygame.key.get_pressed() #Get the key pressed dict
-            if (self.keys[pygame.K_k]):
-                self.acc.y -= self.mov_pix
-            if (self.keys[pygame.K_j]):
-                self.acc.y += self.mov_pix
+            #self.keys=pygame.key.get_pressed() #Get the key pressed dict
+            #if (self.keys[pygame.K_k]):
+            #    self.acc.y -= self.mov_pix
+            #if (self.keys[pygame.K_j]):
+            #    self.acc.y += self.mov_pix
 
         elif (self.cy +10) >= self.ry:
             if self.bounce_fix is 0:
